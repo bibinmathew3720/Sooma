@@ -17,6 +17,11 @@ let kPointsKey = "points"
 let STORAGE_BUCKET_URL = "gs://sooma-1c05b.appspot.com"
 let ZOMATO_API_KEY = "4ec7dc56bea0ee43a3946a8b5121a7ea"
 
+//User Default keys
+
+let kEmailUDKey = "emailKey"
+let kPasswordUDKey = "passwordKey"
+let kEnableFaceIDKey = "faceIdKey"
 //For yelp
 
 let yelpConsumerKey = "edcCQmeMn-XGJb4PVlSdrg"

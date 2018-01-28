@@ -11,6 +11,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
+import LocalAuthentication
 
 let enterAppSegue = "enterApp"
 let enterAppToRestaurantsSegue = "toRestaurants"
@@ -24,7 +25,52 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+       let userName = UserDefaults.standard.value(forKey: kEmailUDKey)
+        if(userName==nil){
+          
+        }
+        else{
+            let isEnabledFaceId  = UserDefaults.standard.bool(forKey: kEnableFaceIDKey)
+            if(isEnabledFaceId == true){
+                self.authenticateUser()
+            }
+        }
+    }
+    
+    func authenticateUser() {
+        let authenticationContext = LAContext()
+        var error:NSError?
         
+        
+        guard authenticationContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
+            print("No Sensor")
+            return
+        }
+        
+        authenticationContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "eRemit Login with Biometric ID", reply: {
+            (success, error) -> Void in
+            DispatchQueue.main.async {
+                if( success ) {
+                    let email = UserDefaults.standard.value(forKey: kEmailUDKey)
+                    let password = UserDefaults.standard.value(forKey: kPasswordUDKey)
+                    self.callingFirebaseLogInWithEmail(email: email as! String, password: password as! String)
+                    print("Success")
+                    // Fingerprint recognized
+                    // self.isFromPassCode = true
+                    //self.performSegue(withIdentifier: "home", sender: self)
+                }else {
+                    if let error = error {
+                        print(error)
+                        //                            self.numberOfAttempt += 1
+                        //                            if self.numberOfAttempt == 5 {
+                        //                                ER_DEFAULTS.set(true, forKey: userDefaultsKey.isFirstTime.rawValue)
+                        //                                APPDELEGATE?.setLandingScreen(view: .login)
+                        //                            }
+                        self.popAlert("Authentication Failed", message: "Face ID authentication failed")
+                    }
+                }
+            }
+        })
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -66,15 +112,26 @@ class ViewController: UIViewController {
             })
         }
     }
+    
+    func saveToKeychainAccess(email:String,password:String){
+        UserDefaults.standard.setValue(email, forKey: kEmailUDKey)
+        UserDefaults.standard.setValue(password, forKey: kPasswordUDKey)
+       
+//        NSKeyedArchiver.setValue(emailTextField.text, forKey: "username")
+//        NSKeyedArchiver.setValue(passwordTextField.text, forKey: "password")
+    }
 
     @IBAction func loginTapped(_ sender: AnyObject) {
-        
-        let email = emailTextField.text
-        let password = passwordTextField.text
+        self.callingFirebaseLogInWithEmail(email: emailTextField.text!, password: passwordTextField.text!)
+    }
+    
+    func callingFirebaseLogInWithEmail(email:String,password:String){
+//        let email = emailTextField.text
+//        let password = passwordTextField.text
         
         if email != "" && password != "" {
             
-            FIRAuth.auth()?.signIn(withEmail: email!, password: password!, completion: { (user, error) in
+            FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
                 
                 if error != nil {
                     self.popAlert(error!.localizedDescription, message: "")
@@ -89,7 +146,7 @@ class ViewController: UIViewController {
                             for theUser in userArray! {
                                 
                                 if theUser.uid == user!.uid {
-                                    
+                                    self.saveToKeychainAccess(email: email, password: password)
                                     self.performSegue(withIdentifier: enterAppSegue, sender: nil)
                                 }
                             }
@@ -103,7 +160,7 @@ class ViewController: UIViewController {
                             for theUser in restaurantUsers! {
                                 
                                 if theUser.uid == user!.uid {
-                                    
+                                    self.saveToKeychainAccess(email: email, password: password)
                                     self.performSegue(withIdentifier: enterAppToRestaurantsSegue, sender: nil)
                                 }
                             }

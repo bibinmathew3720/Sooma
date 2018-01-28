@@ -150,6 +150,7 @@
                     <tabBarItem key="tabBarItem" title="Profile" id="FGw-FE-87H"/>
                     <connections>
                         <outlet property="displayNameField" destination="zMs-lE-wZV" id="fxQ-XF-eTk"/>
+                        <outlet property="enableSwitch" destination="YB0-En-R1b" id="erk-mX-7xx"/>
                         <outlet property="pointsLabel" destination="rLK-me-yed" id="EAr-II-6pR"/>
                         <outlet property="profileImageView" destination="6eR-Yy-bPc" id="MUf-ld-abR"/>
                     </connections>
@@ -1047,6 +1048,6 @@
         <image name="sooma_logo_colored" width="528" height="482"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="vKp-BF-0ux"/>
+        <segue reference="1PY-5X-f7P"/>
     </inferredMetricsTieBreakers>
 </document>

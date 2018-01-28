@@ -17,6 +17,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet var profileImageView: UIImageView!
     @IBOutlet var displayNameField: UITextField!
     @IBOutlet var pointsLabel: UILabel!
+    @IBOutlet weak var enableSwitch: UISwitch!
     
     var currentUser : User!
     
@@ -27,13 +28,17 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.settingFaceIdSwitch()
         self.profileImageView.image = UIImage(named: "user_paceholder")
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         self.view.endEditing(true)
+    }
+    
+    func settingFaceIdSwitch(){
+       self.enableSwitch.isOn = UserDefaults.standard.bool(forKey: kEnableFaceIDKey)
     }
     
     @IBAction func logoutTapped(_ sender: Any) {
@@ -55,6 +60,13 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func faceIdSwitchAction(_ sender: Any) {
+        let faceIdSwitch = sender as! UISwitch
+        if(faceIdSwitch.isOn){
+            UserDefaults.standard.set(true, forKey: kEnableFaceIDKey)
+        }
+        else{
+            UserDefaults.standard.set(false, forKey: kEnableFaceIDKey)
+        }
     }
     //configure
     
