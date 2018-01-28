@@ -158,12 +158,12 @@ class RestaurantLoginSignUpViewController: UIViewController {
         UserDefaults.standard.setValue(email, forKey: kEmailUDKey)
         UserDefaults.standard.setValue(password, forKey: kPasswordUDKey)
         guard let tempeEmailId = UserDefaults.standard.value(forKey: kEmailUDKey) else {
-            UserDefaults.standard.set(false, forKey: kEnableFaceIDKey)
+            //UserDefaults.standard.set(false, forKey: kEnableFaceIDKey)
             return
         }
         let emailId = UserDefaults.standard.value(forKey: kEmailUDKey) as! String
         if(emailId != email){
-            UserDefaults.standard.set(false, forKey: kEnableFaceIDKey);
+            //UserDefaults.standard.set(false, forKey: kEnableFaceIDKey);
         }
     
     }

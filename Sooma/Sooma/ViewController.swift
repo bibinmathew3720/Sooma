@@ -51,8 +51,8 @@ class ViewController: UIViewController {
             (success, error) -> Void in
             DispatchQueue.main.async {
                 if( success ) {
-                    let email = UserDefaults.standard.value(forKey: kEmailUDKey)
-                    let password = UserDefaults.standard.value(forKey: kPasswordUDKey)
+                    let email = UserDefaults.standard.value(forKey: kfaceIdEnableEmailId)
+                    let password = UserDefaults.standard.value(forKey: kfaceIdEnablePassword)
                     self.callingFirebaseLogInWithEmail(email: email as! String, password: password as! String)
                     print("Success")
                     // Fingerprint recognized
@@ -117,12 +117,12 @@ class ViewController: UIViewController {
         UserDefaults.standard.setValue(email, forKey: kEmailUDKey)
         UserDefaults.standard.setValue(password, forKey: kPasswordUDKey)
         guard let tempeEmailId = UserDefaults.standard.value(forKey: kEmailUDKey) else {
-            UserDefaults.standard.set(false, forKey: kEnableFaceIDKey)
+            //UserDefaults.standard.set(false, forKey: kEnableFaceIDKey)
              return
              }
         let emailId = UserDefaults.standard.value(forKey: kEmailUDKey) as! String
         if(emailId != email){
-            UserDefaults.standard.set(false, forKey: kEnableFaceIDKey);
+            //UserDefaults.standard.set(false, forKey: kEnableFaceIDKey);
         }
        
        

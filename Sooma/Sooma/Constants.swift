@@ -22,6 +22,11 @@ let ZOMATO_API_KEY = "4ec7dc56bea0ee43a3946a8b5121a7ea"
 let kEmailUDKey = "emailKey"
 let kPasswordUDKey = "passwordKey"
 let kEnableFaceIDKey = "faceIdKey"
+let kUserDetailsUDKey = "userDetails"
+let kIsFaceIdEnabledUDKey  = "isFaceIdEnabled"
+let kfaceIdEnableEmailId = "faceidEnableEmail"
+let kfaceIdEnablePassword = "faceidEnablePassword"
+
 //For yelp
 
 let yelpConsumerKey = "edcCQmeMn-XGJb4PVlSdrg"

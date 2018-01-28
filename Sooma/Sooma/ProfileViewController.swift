@@ -18,6 +18,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet var displayNameField: UITextField!
     @IBOutlet var pointsLabel: UILabel!
     @IBOutlet weak var enableSwitch: UISwitch!
+    @IBOutlet weak var enableFaceIdLabel: UILabel!
     
     var currentUser : User!
     
@@ -39,6 +40,21 @@ class ProfileViewController: UIViewController {
     
     func settingFaceIdSwitch(){
        self.enableSwitch.isOn = UserDefaults.standard.bool(forKey: kEnableFaceIDKey)
+        
+        guard let tempeEmailId = UserDefaults.standard.value(forKey: kfaceIdEnableEmailId) else {
+            
+            return
+        }
+        let emailId = UserDefaults.standard.value(forKey: kEmailUDKey) as! String
+        let faceIdEnablesEmailId = UserDefaults.standard.value(forKey: kfaceIdEnableEmailId) as! String
+        if(emailId != faceIdEnablesEmailId){
+            self.settingFaceidEnableControlsHidden()
+        }
+    }
+    
+    func settingFaceidEnableControlsHidden(){
+        self.enableFaceIdLabel.isHidden = true;
+         self.enableSwitch.isHidden = true;
     }
     
     @IBAction func logoutTapped(_ sender: Any) {
@@ -62,9 +78,14 @@ class ProfileViewController: UIViewController {
     @IBAction func faceIdSwitchAction(_ sender: Any) {
         let faceIdSwitch = sender as! UISwitch
         if(faceIdSwitch.isOn){
+            let enabledEmailId = UserDefaults.standard.value(forKey: kEmailUDKey)
+            UserDefaults.standard.setValue(enabledEmailId, forKey: kfaceIdEnableEmailId)
+            let enabledPasswordId = UserDefaults.standard.value(forKey: kPasswordUDKey)
+            UserDefaults.standard.setValue(enabledPasswordId, forKey: kfaceIdEnablePassword)
             UserDefaults.standard.set(true, forKey: kEnableFaceIDKey)
         }
         else{
+            UserDefaults.standard.setValue(nil, forKey: kfaceIdEnableEmailId)
             UserDefaults.standard.set(false, forKey: kEnableFaceIDKey)
         }
     }
