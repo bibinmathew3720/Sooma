@@ -1,0 +1,6 @@
+framework module Pods_Sooma {
+  umbrella header "Pods-Sooma-umbrella.h"
+
+  export *
+  module * { export * }
+}

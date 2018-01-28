@@ -1,0 +1,7 @@
+use_frameworks!
+
+target 'Sooma' do
+
+pod 'Alamofire', '~> 4.0'
+
+end
