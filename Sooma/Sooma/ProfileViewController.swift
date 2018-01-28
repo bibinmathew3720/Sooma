@@ -54,6 +54,8 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    @IBAction func faceIdSwitchAction(_ sender: Any) {
+    }
     //configure
     
     func customizeButtons() { //and imageView etc.
