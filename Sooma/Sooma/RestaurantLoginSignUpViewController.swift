@@ -111,7 +111,7 @@ class RestaurantLoginSignUpViewController: UIViewController {
                         for restUser in restaurantUsers! {
                             
                             if restUser.uid == user!.uid {
-                        
+                                self.saveToKeychainAccess(email: self.restaurantEmailField.text!, password: self.restaurantPasswordField.text!)
                                 self.performSegue(withIdentifier: self.REST_ENTER_SEGUE, sender: nil)
                                 
                             }
@@ -144,13 +144,28 @@ class RestaurantLoginSignUpViewController: UIViewController {
             else {
                 
                 let restaurantUserDict = ["restaurantName": self.restaurantNameField.text!, "restaurantUID": user!.uid, "restuarantEmail": self.restaurantEmailField.text!, "restaurantPhone": self.restaurantPhoneField.text!]
-                
+                UserDefaults.standard.set(false, forKey: kEnableFaceIDKey)
+                self.saveToKeychainAccess(email: self.restaurantEmailField.text!, password: self.restaurantPasswordField.text!)
                 self.sendUserToFirebase(dictionary: restaurantUserDict)
                 
                 self.performSegue(withIdentifier: self.REST_ENTER_SEGUE, sender: nil)
             }
         })
         }
+    }
+    
+    func saveToKeychainAccess(email:String,password:String){
+        UserDefaults.standard.setValue(email, forKey: kEmailUDKey)
+        UserDefaults.standard.setValue(password, forKey: kPasswordUDKey)
+        guard let tempeEmailId = UserDefaults.standard.value(forKey: kEmailUDKey) else {
+            UserDefaults.standard.set(false, forKey: kEnableFaceIDKey)
+            return
+        }
+        let emailId = UserDefaults.standard.value(forKey: kEmailUDKey) as! String
+        if(emailId != email){
+            UserDefaults.standard.set(false, forKey: kEnableFaceIDKey);
+        }
+    
     }
     
     override func didReceiveMemoryWarning() {

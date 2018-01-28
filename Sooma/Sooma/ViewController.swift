@@ -116,6 +116,15 @@ class ViewController: UIViewController {
     func saveToKeychainAccess(email:String,password:String){
         UserDefaults.standard.setValue(email, forKey: kEmailUDKey)
         UserDefaults.standard.setValue(password, forKey: kPasswordUDKey)
+        guard let tempeEmailId = UserDefaults.standard.value(forKey: kEmailUDKey) else {
+            UserDefaults.standard.set(false, forKey: kEnableFaceIDKey)
+             return
+             }
+        let emailId = UserDefaults.standard.value(forKey: kEmailUDKey) as! String
+        if(emailId != email){
+            UserDefaults.standard.set(false, forKey: kEnableFaceIDKey);
+        }
+       
        
 //        NSKeyedArchiver.setValue(emailTextField.text, forKey: "username")
 //        NSKeyedArchiver.setValue(passwordTextField.text, forKey: "password")
@@ -192,7 +201,7 @@ class ViewController: UIViewController {
                 else {
                     
                     let userDict = [kUidKey: user?.uid, kEmailKey: email, kBioKey: "", kProfilePicURLKey: "", kUsernameKey: "Your username", kPointsKey: "0"]
-                    
+                    self.saveToKeychainAccess(email: email!, password: password!)
                     self.sendUserToFirebase(dictionary: userDict)
                     
                     self.performSegue(withIdentifier: enterAppSegue, sender: nil)
