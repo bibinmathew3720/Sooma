@@ -39,7 +39,7 @@ class ProfileViewController: UIViewController {
     }
     
     func settingFaceIdSwitch(){
-       self.enableSwitch.isOn = UserDefaults.standard.bool(forKey: kEnableFaceIDKey)
+      // self.enableSwitch.isOn = UserDefaults.standard.bool(forKey: kEnableFaceIDKey)
         
         guard let tempeEmailId = UserDefaults.standard.value(forKey: kfaceIdEnableEmailId) else {
             
@@ -49,6 +49,12 @@ class ProfileViewController: UIViewController {
         let faceIdEnablesEmailId = UserDefaults.standard.value(forKey: kfaceIdEnableEmailId) as! String
         if(emailId != faceIdEnablesEmailId){
             self.settingFaceidEnableControlsHidden()
+        }
+        else{
+            let isEnabledFaceId  = UserDefaults.standard.bool(forKey: kEnableFaceIDKey)
+            if(isEnabledFaceId == true){
+                self.enableSwitch.isOn = true
+            }
         }
     }
     
